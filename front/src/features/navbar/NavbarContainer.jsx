@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { HamburgerMenuIcon } from '@radix-ui/react-icons';
 import LayerMapBaseOptions from './components/BaselayerMap/LayerMapBaseOptions';
+import PersonCountButtonn from './components/personCount/PersonCountButtonn';
 
 export default function NavbarContainer() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -28,8 +29,9 @@ export default function NavbarContainer() {
         </div>
 
         {/* Derecha: Selector de mapa base */}
-        <div className="hidden md:flex items-center justify-end">
+        <div className="hidden md:flex items-center justify-end gap-2">
           <LayerMapBaseOptions />
+          <PersonCountButtonn name={'Demo person'} />
         </div>
       </div>
     </nav>
