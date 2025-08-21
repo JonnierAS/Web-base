@@ -6,6 +6,12 @@ const GlobalStateContext = createContext();
 export const GlobalStateProvider = ({ children }) => {
     const [mapType, setMapType] = useState(mapStyles[0]);
 
+    /* Seleccion de capa */
+    const [ layerActiveGeoserver,setLayerActiveGeoserver ] = useState(null)
+    const [layerViewControl, setLayerViewControl] = useState({
+      displayed: [],
+      hidden: []
+    })
     /* sidepanel */
   const [openPanel, setOpenPanel] = useState({
     left: false,
@@ -17,7 +23,9 @@ export const GlobalStateProvider = ({ children }) => {
         <GlobalStateContext.Provider
             value={{
                 mapType, setMapType,
-                openPanel, setOpenPanel
+                openPanel, setOpenPanel,
+                layerActiveGeoserver,setLayerActiveGeoserver,
+                layerViewControl, setLayerViewControl
             }}
         >
             {children}
