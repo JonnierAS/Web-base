@@ -80,3 +80,23 @@ Separacion por feature (dominio funcional), no solo por tipo de archivo:
  ┃ ┃ ┃ ┣ 📜sources.js
  ┃ ┃ ┃ ┗ 📜styles.js
 ```
+
+
+
+# Inicializacion
+
+Ejecutamos:
+
+Para instalar las dependencias
+```bash
+npm install
+```
+
+Para la inicializacion normal de la aplicacion
+```bash
+npm run dev
+```
+Para ver la documentacion en Storybook
+```bash
+npm run storybook
+```
