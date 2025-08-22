@@ -2,8 +2,9 @@ import { useGlobalState } from '@/shared/context/GlobalState'
 import { ChevronRightIcon, Cross1Icon } from "@radix-ui/react-icons"
 import { usePanelTabs } from "../hook/usePanelTabs"
 import { TabsBar } from "../components/TabsBar"
+import { PanelFooterButtons } from '../components/PanelFooterButtons'
 
-export const LeftPanel = ({ title = "Panel", tabs = [] }) => {
+export const LeftPanel = ({ title = "Panel", tabs = [], footerButtons = [] }) => {
   const { openPanel, setOpenPanel } = useGlobalState()
   const { activeTab, setActiveTab, currentTab } = usePanelTabs(tabs)
 
@@ -25,7 +26,7 @@ export const LeftPanel = ({ title = "Panel", tabs = [] }) => {
   return (
     <>
       <div className={`${!openPanel.left && 'hidden'} absolute w-[340px] h-[100dvh] bg-transparent left-0 z-[850]`}>
-        <div className="relative py-2 bg-white h-full border-t-4 border-gray-400/70">
+        <div className="relative py-2 bg-white h-full border-t-4 border-gray-400/70 flex flex-col">
           {/* Header */}
           <div className="mt-12 flex justify-between pr-2 items-center border-b border-gray-300">
             <h1 className="text-lg pl-1">{title}</h1>
@@ -40,10 +41,13 @@ export const LeftPanel = ({ title = "Panel", tabs = [] }) => {
           {/* Tabs */}
           <TabsBar tabs={tabs} activeTab={activeTab} setActiveTab={setActiveTab} />
 
-          {/* Content */}
-          <div className="p-2 overflow-auto h-[calc(100%-120px)]">
+          {/* Scrollable Content */}
+          <div className="w-full overflow-auto flex-grow">
             {currentTab?.content}
           </div>
+
+          {/* Reusable Footer */}
+          <PanelFooterButtons buttons={footerButtons} />
         </div>
       </div>
 
