@@ -14,7 +14,7 @@ const handleClick = (label) => () => alert(`Clic en botón: ${label}`);
 
 export const Usabilidad = {
   args: {
-    buttons: [
+    footerButtons: [
       { label: 'Añadir', onClick: handleClick('Añadir Capa') },
       { label: 'Limpiar', onClick: handleClick('Limpiar') },
     ],
@@ -25,7 +25,7 @@ export const Usabilidad = {
 export const CodigoFuente = {
   component: PanelFooterButtons,
   args: {
-    buttons: [
+    footerButtons: [
       { label: 'Añadir', onClick: handleClick('Añadir Capa') },
       { label: 'Limpiar', onClick: handleClick('Limpiar') },
     ],
