@@ -1,43 +1,27 @@
-// .storybook/main.js
-import { fileURLToPath } from 'node:url';
-import path from 'node:path';
+import { mergeConfig } from 'vite';
+import path from 'path';
 
-/** @type { import('@storybook/react-vite').StorybookConfig } */
-const config = {
-  stories: [
-    '../src/**/*.mdx',
-    '../src/**/*.stories.@(js|jsx|mjs|ts|tsx)',
-  ],
-  addons: [
-    '@chromatic-com/storybook',
-    '@storybook/addon-docs',
-    '@storybook/addon-onboarding',
-    '@storybook/addon-a11y',
-    '@storybook/addon-vitest',
-  ],
-  staticDirs: ['../public'],
-  framework: { name: '@storybook/react-vite', options: {} },
-  viteFinal: async (viteConfig) => {
-    const __filename = fileURLToPath(import.meta.url);
-    const __dirname = path.dirname(__filename);
+/** @type { import('storybook').StorybookConfig } */
+export default {
+  stories: ['../src/**/*.@(mdx|stories.@(js|jsx|ts|tsx))'],
+  addons: ['@storybook/addon-essentials', '@chromatic-com/storybook'],
 
-    // Alias "@"
-    viteConfig.resolve = viteConfig.resolve || {};
-    viteConfig.resolve.alias = {
-      ...(viteConfig.resolve.alias || {}),
-      '@': path.resolve(__dirname, '../src'),
-    };
+  framework: {
+    name: '@storybook/react-vite',
+    options: {},
+  },
 
-    // (Opcional) plugin Tailwind si usás @tailwindcss/vite
-    try {
-      const { default: tailwindcss } = await import('@tailwindcss/vite');
-      viteConfig.plugins = [...(viteConfig.plugins || []), tailwindcss()];
-    } catch {
-      // si no lo tenés, no pasa nada
-    }
+  async viteFinal(config) {
+    return mergeConfig(config, {
+      resolve: {
+        alias: {
+          '@': path.resolve(__dirname, '../src'),
+        },
+      },
+    });
+  },
 
-    return viteConfig;
+  docs: {
+    autodocs: true,
   },
 };
-
-export default config;

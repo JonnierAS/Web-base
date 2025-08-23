@@ -28,7 +28,7 @@ export const decorators = [
     <Provider store={testStore}>
       <GlobalStateProvider initialValue={DEFAULT_GLOBAL_STATE}>
         {/* Contenedor con altura razonable para mapas */}
-        <div style={{ height: '80vh', width: '100%' }}>
+        <div style={{ width: '100%', height: '50dvh' }}>
           <Story />
         </div>
       </GlobalStateProvider>
