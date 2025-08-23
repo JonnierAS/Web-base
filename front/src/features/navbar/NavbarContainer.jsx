@@ -30,7 +30,7 @@ export default function NavbarContainer() {
 
         {/* Derecha: Selector de mapa base */}
         <div className="hidden md:flex items-center justify-end gap-2">
-          <LayerMapBaseOptions />
+          <LayerMapBaseOptions position={'top-right'} />
           <PersonCountButtonn name={'Demo person'} />
         </div>
       </div>
