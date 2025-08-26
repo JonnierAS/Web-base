@@ -40,6 +40,7 @@ import { useState } from 'react';
 import { HamburgerMenuIcon } from '@radix-ui/react-icons';
 import LayerMapBaseOptions from './components/BaselayerMap/LayerMapBaseOptions';
 import PersonCountButtonn from './components/personCount/PersonCountButtonn';
+import { ButtonTool } from '../../shared/components/ButtonTool';
 
 export default function NavbarContainer() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -52,27 +53,39 @@ export default function NavbarContainer() {
       <div className="flex items-center justify-between h-full px-4">
         
         {/* Izquierda: Botón hamburguesa */}
-        <div className="md:hidden">
+        <div className="flex flex-1 items-center justify-start gap-2">
           <button
             onClick={() => setIsMenuOpen(!isMenuOpen)}
-            className={\`p-1 rounded-md \${isMenuOpen ? 'bg-red-300' : 'bg-transparent'}\`}
+            className={\`md:hidden p-1 rounded-md \${isMenuOpen ? 'bg-red-300' : 'bg-transparent'}\`}
           >
             <HamburgerMenuIcon className="w-4 h-4" />
           </button>
+
+          <ButtonTool
+            label="Solo texto"
+            onClick={() => {}}
+          />
+        </div>
+        
+
+        {/* Centro: Botón Regresar */}
+        <div className="flex flex-1 items-center justify-center">
+          <ButtonTool
+            label="Solo texto 2"
+            onClick={() => {}}
+          />
         </div>
 
-        {/* Centro: (vacío) */}
-        <div className="flex-1 flex justify-center"></div>
-
         {/* Derecha: Selector de mapa base */}
-        <div className="hidden md:flex items-center justify-end">
-          <LayerMapBaseOptions />
+        <div className="flex flex-1 items-center justify-end gap-2">
+          <LayerMapBaseOptions position={'top-right'} />
           <PersonCountButtonn name={'Demo person'} />
         </div>
       </div>
     </nav>
   );
 }
+
         `,
       },
     },
