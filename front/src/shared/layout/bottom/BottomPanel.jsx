@@ -4,7 +4,7 @@ import { ChevronDownIcon, ChevronRightIcon } from "@radix-ui/react-icons";
 import { usePanelTabs } from "../hook/usePanelTabs";
 import { TabsBar } from '../components/TabsBar';
 
-export const BottomPanel = ({ title = "Panel", tabs = [] }) => {
+export const BottomPanel = ({ title = "Panel", tabs = [], renderContent = null }) => {
   const { openPanel, setOpenPanel } = useGlobalState();
   const { activeTab, setActiveTab, currentTab } = usePanelTabs(tabs);
 
@@ -76,19 +76,27 @@ export const BottomPanel = ({ title = "Panel", tabs = [] }) => {
         {/* Header */}
         <div className="flex justify-between items-center px-2 border-b border-gray-300">
           <h1 className="text-lg">{title}</h1>
-          <button
-            onClick={() => setOpenPanel(prev => ({ ...prev, bottom: false }))}
-            className="text-gray-400 cursor-pointer p-1 rounded hover:bg-red-300 hover:text-black"
-          >
-            <ChevronDownIcon />
-          </button>
+          
+          <div className='flex items-center gap-2 py-1 text-[11px] text-gray-600'>
+            {/* Botones Añadidos dinamicamnete */}
+            {renderContent()}
+
+
+            {/* Cerrar */}
+            <button
+              onClick={() => setOpenPanel(prev => ({ ...prev, bottom: false }))}
+              className="cursor-pointer p-1 rounded hover:bg-red-300 hover:text-black"
+            >
+              <ChevronDownIcon />
+            </button>
+          </div>
         </div>
 
         {/* Tabs */}
         <TabsBar tabs={tabs} activeTab={activeTab} setActiveTab={setActiveTab} />
 
         {/* Content */}
-        <div className="p-2 overflow-auto" style={{ height: `calc(${height}px - 120px)` }}>
+        <div className="p-2 overflow-auto" style={{ height: `calc(${height}px - 65px)` }}>
           {currentTab?.content}
         </div>
       </div>
