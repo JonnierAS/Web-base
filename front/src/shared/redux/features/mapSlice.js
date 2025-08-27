@@ -3,7 +3,6 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
   mapBoxDrawStateRef: null,
   mapRef: null,
-  layerData: null,
 };
 
 export const map_slice = createSlice({
@@ -16,9 +15,6 @@ export const map_slice = createSlice({
     setMapref: (state, action) => {
       state.mapRef = action.payload;
     },
-    setLayerData: (state, action) => {
-      state.layerData = action.payload;
-    },
   }
 });
 
@@ -26,7 +22,6 @@ export const map_slice = createSlice({
 export const {
   setMapboxDrawRef,
   setMapref,
-  setLayerData
 } = map_slice.actions;
 
 export default map_slice.reducer;
