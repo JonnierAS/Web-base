@@ -1,4 +1,4 @@
-export function Card({ title, children, height = '250', width = '350', position = 'top-left' }) {
+export function Card({ title, children, height = '250', width = '350', position = 'top-left', className = 'p-2' }) {
   const positionMap = {
     'top-left': 'top-[57px] left-5',
     'top-right': 'top-[57px] right-5',
@@ -19,10 +19,11 @@ export function Card({ title, children, height = '250', width = '350', position 
         scrollbarWidth: 'thin',
         height: `${height}px`,
       }}
-      className={`absolute ${resolvedPosition} rounded border border-gray-200 bg-white px-2 pb-2 shadow-sm z-[800]`}
+      className={`absolute ${resolvedPosition} ${className} rounded border border-gray-200 bg-white pb-2 shadow-sm z-[800]`}
     >
-
-      <h3 className="text-sm font-medium text-gray-700 mb-2 py-1 sticky top-0 bg-white w-full z-[800]">{title}</h3>
+      {title && (
+        <h3 className="text-sm font-medium text-gray-700 mb-2 py-1 sticky top-0 bg-white w-full z-[800]">{title}</h3>
+      )}
       <div>{children}</div>
     </div>
   );

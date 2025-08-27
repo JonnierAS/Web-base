@@ -10,6 +10,7 @@ export default {
     height: '250',
     width: '350',
     position: 'top-left',
+    className: 'p-2',
   },
   argTypes: {
     title: {
@@ -33,13 +34,17 @@ export default {
       options: ['top-left', 'top-right', 'bottom-left', 'bottom-right', 'center-left', 'center-right'],
       description: 'Ubicación de la tarjeta en pantalla',
     },
+    className: {
+      control: 'text',
+      description: 'Clase para estilos personalizados',
+    },
   },
   parameters: {
     layout: 'fullscreen',
     docs: {
       source: {
         code: `
-        export function Card({ title, children, height = '250', width = '350', position = 'top-left' }) {
+        export function Card({ title, children, height = '250', width = '350', position = 'top-left', className = 'p-2' }) {
         const positionMap = {
             'top-left': 'top-[57px] left-5',
             'top-right': 'top-[57px] right-5',
@@ -53,9 +58,11 @@ export default {
 
         return (
             <div style={{ width: \`\${width}px\`, height: \`\${height}px\`, overflowY: 'auto', scrollbarWidth: 'thin' }} className={\`absolute 
-            \${resolvedPosition} rounded border border-gray-200 bg-white px-2 pb-2 shadow-sm z-[800]
+            \${resolvedPosition} \${className}  rounded border border-gray-200 bg-white pb-2 shadow-sm z-[800]
             \`}>
-            <h3 className="text-sm font-medium text-gray-700 mb-2 py-1 sticky top-0 bg-white w-full z-[800]">{title}</h3>
+            {title && (
+              <h3 className="text-sm font-medium text-gray-700 mb-2 py-1 sticky top-0 bg-white w-full z-[800]">{title}</h3>
+            )}
             <div>{children}</div>
             </div>
         );
