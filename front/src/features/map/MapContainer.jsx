@@ -7,7 +7,7 @@ import { NavigationControl, ScaleControl } from 'react-map-gl';
 //components
 import { setMapref } from '@/shared/redux/features/mapSlice';
 import { useGlobalState } from '@/shared/context/GlobalState';
-import  DrawControl  from '../toolbox/Toolbar'
+import  DrawControl  from './components/toolbox/Toolbar'
 
 export const MapContainer = () => {
     const dispatch = useDispatch()

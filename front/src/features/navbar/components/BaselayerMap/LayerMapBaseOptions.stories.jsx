@@ -1,7 +1,7 @@
 // src/features/navbar/components/BaselayerMap/LayerMapBaseOptions.stories.jsx
 import LayerMapBaseOptions from './LayerMapBaseOptions';
 import { GlobalStateProvider } from '@/shared/context/GlobalState';
-import { mapStyles } from '@/shared/utils/constants_base_map/styles';
+import { mapStyles } from '@/shared/map/base/styles';
 
 export default {
   title: 'features/navbar/components/LayerMapBaseOptions',

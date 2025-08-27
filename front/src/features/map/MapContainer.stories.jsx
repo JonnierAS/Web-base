@@ -7,7 +7,7 @@ import { useGlobalState } from '@/shared/context/GlobalState';
 
 // (opcional) Si tenés tus estilos predefinidos, los usamos como opciones.
 // Si no te calza el import, comentá la línea y quedate con el fallback `OPTIONS`.
-import { mapStyles } from '@/shared/utils/constants_base_map/styles';
+import { mapStyles } from '@/shared/map/base/styles';
 
 // --- Wrapper para controlar el contexto global desde args ---
 const MapWithArgs = ({ mapStyle }) => {

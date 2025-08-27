@@ -1,7 +1,7 @@
 
 import { useState } from "react";
 
-import { mapStyles } from "@/shared/utils/constants_base_map/styles";
+import { mapStyles } from "@/shared/map/base/styles";
 import { useGlobalState } from "@/shared/context/GlobalState";
 
 const positionClasses = {
