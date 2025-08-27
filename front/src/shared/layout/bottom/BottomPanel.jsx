@@ -79,7 +79,7 @@ export const BottomPanel = ({ title = "Panel", tabs = [], renderContent = null }
           
           <div className='flex items-center gap-2 py-1 text-[11px] text-gray-600'>
             {/* Botones Añadidos dinamicamnete */}
-            {renderContent()}
+            {renderContent &&renderContent()}
 
 
             {/* Cerrar */}
