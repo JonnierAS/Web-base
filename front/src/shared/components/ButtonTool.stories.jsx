@@ -159,7 +159,7 @@ export const ButtonTool = ({
       className={\`mt-1 text-[11px] \${
         disabled
           ? 'text-gray-300'
-          : 'text-gray-900 font-medium hover:text-[#49b0f2]'
+          : 'text-gray-900 font-medium'
       }\`}
     >
       {label}
@@ -173,7 +173,7 @@ export const ButtonTool = ({
       disabled={disabled}
       onClick={onClick}
       className={\`flex \${flexLayout} items-center justify-center p-1 rounded text-[11px] transition-colors
-        \${isActive ? 'text-[#49b0f2] bg-blue-100' : 'hover:text-[#49b0f2]'}
+        \${isActive ? 'text-[#49b0f2] bg-blue-100' : 'hover:text-gray-900'}
         \${disabled ? 'cursor-not-allowed' : 'cursor-pointer'}
         \${className}
       \`}
