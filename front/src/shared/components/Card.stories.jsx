@@ -58,7 +58,7 @@ export default {
 
         return (
             <div style={{ width: \`\${width}px\`, height: \`\${height}px\`, overflowY: 'auto', scrollbarWidth: 'thin' }} className={\`absolute 
-            \${resolvedPosition} \${className}  rounded border border-gray-200 bg-white pb-2 shadow-sm z-[800]
+            \${resolvedPosition} \${className}  rounded border border-gray-200 bg-white shadow-sm z-[800]
             \`}>
             {title && (
               <h3 className="text-sm font-medium text-gray-700 mb-2 py-1 sticky top-0 bg-white w-full z-[800]">{title}</h3>
