@@ -38,7 +38,7 @@ function LayerMapBaseOptions({ position = 'top-right' }) {
           />
           {openMapaBase && (
             <div
-              className={` grid grid-cols-6 justify-center bg-[#fff] w-[350px] h-auto shadow-md shadow-[#5a5858b4] border border-gray-400/70 rounded text-[8px] z-50 ${modalPosition}`}
+              className={` grid grid-cols-4 justify-center bg-[#fff] h-auto shadow-md shadow-[#5a5858b4] border border-gray-400/70 rounded text-[8px] z-50 ${modalPosition}`}
             >
               {mapStyles.map((style) => (
                 <button
