@@ -1,7 +1,7 @@
 // src/shared/context/GlobalState.stories.jsx
 import React from 'react';
 import { GlobalStateProvider, useGlobalState } from './GlobalState';
-import { mapStyles } from '@/shared/utils/constants_base_map/styles';
+import { mapStyles } from '@/shared/map/base/styles';
 
 const DemoComponent = () => {
   const { openPanel, setOpenPanel, mapType, setMapType } = useGlobalState();
