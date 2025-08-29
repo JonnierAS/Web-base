@@ -66,45 +66,6 @@ const DrawingOverlay = () => {
 
   return (
     <>
-       <Card
-            position='top-left'
-            layout='column'
-            width='170'
-            height=''
-            className='p-2'
-        >  
-            <div
-        style={{
-          maxHeight: 140,
-          overflow: 'auto',
-          background: '#F9FAFB',
-          border: '1px solid #E5E7EB',
-          borderRadius: 6,
-          padding: 6,
-          fontSize: 11,
-          color: '#111827',
-        }}
-      >
-        <strong style={{ display: 'block', marginBottom: 4, color: '#374151' }}>
-          Último feature:
-        </strong>
-        {lastFeature ? (
-          <pre style={{ whiteSpace: 'pre-wrap', margin: 0 }}>
-            {JSON.stringify(lastFeature.geometry, null, 2)}
-          </pre>
-        ) : (
-          <span style={{ color: '#6B7280' }}>— Dibujá algo en el mapa —</span>
-        )}
-      </div>
-
-
-        {disabled && (
-            <p style={{ marginTop: 8, fontSize: 12, color: '#ef4444' }}>
-            ⚠️ Falta registrar <code>mapRef</code> o <code>mapBoxDrawStateRef</code> en Redux.<br />
-            Verifica que tu <code>MapContainer</code> hace <code>setMapref</code> y tu <code>DrawControl</code> hace <code>setMapboxDrawRef</code>.
-            </p>
-        )}
-        </Card>
         <Card
             position='bottom-left'
             layout='column'
