@@ -1,5 +1,6 @@
 import QueryBuilderComponent from './QueryBuilderComponent';
 import 'react-querybuilder/dist/query-builder.css';
+import { within, userEvent, expect } from '@storybook/test';
 
 export default {
   title: 'shared/components/QueryBuilderComponent',
@@ -11,13 +12,11 @@ export default {
         component: `
 Un **QueryBuilder reutilizable y estilizado con TailwindCSS** basado en [react-querybuilder](https://react-querybuilder.js.org/), que incluye:
 
-- Inputs personalizados: \`text\`, \`number\`, \`select\`, \`checkbox\`, \`date\`.
-- Soporte para **drag & drop** con mouse y touch.
-- Sistema de plantillas rápidas y personalizadas (almacenadas en \`localStorage\`).
-- Botones para **ejecutar** o **limpiar** el query.
-- Completamente configurable vía props y callbacks.
-
----
+- Inputs personalizados: 
+- **drag & drop**
+- 
+- 
+- 
 
 ### ⚙️ Props disponibles
 
@@ -90,6 +89,14 @@ Basico.args = {
     { name: 'nombre', label: 'Nombre', type: 'string' },
     { name: 'edad', label: 'Edad', type: 'number' },
   ],
+};
+
+Basico.play = async ({ canvasElement }) => {
+  const canvas = within(canvasElement);
+  const addRuleButton = await canvas.getByRole('button', { name: /➕ Regla/i });
+  await userEvent.click(addRuleButton);
+  const fieldSelector = await canvas.findByText('Campo');
+  await expect(fieldSelector).toBeInTheDocument();
 };
 
 // 🔹 Story con más campos + query inicial
@@ -337,7 +344,7 @@ export default function QueryBuilderComponent({onSaveTemplate, onDeleteTemplate,
   const [tplName, setTplName] = useState("");
 
   const TEMPLATES_KEY = "rqb_templates_tailwind_v1";
-  useEffect(() => {
+  useEffect(() => { 
     try { const s = localStorage.getItem(TEMPLATES_KEY); setTemplates(s ? JSON.parse(s) : []); } catch {}
   }, []);
 
@@ -497,7 +504,7 @@ export default function QueryBuilderComponent({onSaveTemplate, onDeleteTemplate,
                     removeRuleAction: RemoveRuleAction,
                     removeGroupAction: RemoveGroupAction,
                   }}
-                  controlClassnames={{ 
+                  controlClassnames={{
                     queryBuilder: "rqb rqb-tailwind queryBuilder-branches"
                   }}
                   showCombinatorsBetweenRules
