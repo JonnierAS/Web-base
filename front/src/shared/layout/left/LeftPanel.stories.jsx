@@ -1,7 +1,7 @@
-// src/shared/layout/left/LeftPanel.stories.jsx
 import { useEffect } from 'react';
 import { LeftPanel } from './LeftPanel';
 import { useGlobalState } from '@/shared/context/GlobalState';
+import { within, userEvent, expect } from '@storybook/test';
 
 // Wrapper con layout simulado para Storybook
 const LeftPanelOpen = ({ title, tabs, footerButtons }) => {
@@ -71,7 +71,17 @@ export default {
 };
 
 // Variantes
-export const Basico = {};
+export const Basico = {
+    play: async ({ canvasElement }) => {
+        const canvas = within(canvasElement);
+        await expect(canvas.getByText('Panel Izquierdo')).toBeInTheDocument();
+        await expect(canvas.getByText('Capas')).toBeInTheDocument();
+        await expect(canvas.getByText('Listado de capas')).toBeInTheDocument();
+        const closeButton = await canvas.getByRole('button', { name: /Cerrar/i });
+        await userEvent.click(closeButton);
+        await expect(canvas.queryByText('Panel Izquierdo')).not.toBeInTheDocument();
+    }
+};
 
 export const MuchasTabs = {
   args: { tabs: manyTabs },
@@ -175,3 +185,22 @@ export const ConBotonesInferiores = {
     },
   },
 };
+
+
+export const UsoCodigo={
+    component: LeftPanel,
+        parameters: {
+        layout: 'padded',
+        docs: {
+          source: {code:`
+<LeftPanel
+  title="Capas y Leyenda"
+  tabs={[
+    { key: "layers", label: "Capas", content: <component /> },
+    { key: "leyend", label: "Leyenda", content: <component /> },
+  ]}
+/>
+            `},
+        },
+      },
+}
