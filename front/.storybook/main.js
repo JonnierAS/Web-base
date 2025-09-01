@@ -4,7 +4,7 @@ import path from 'path';
 /** @type { import('storybook').StorybookConfig } */
 export default {
   stories: ['../src/**/*.@(mdx|stories.@(js|jsx|ts|tsx))'],
-  addons: ['@storybook/addon-essentials', '@chromatic-com/storybook'],
+  addons: ['@storybook/addon-essentials', '@chromatic-com/storybook', '@storybook/addon-interactions'],
 
   framework: {
     name: '@storybook/react-vite',
