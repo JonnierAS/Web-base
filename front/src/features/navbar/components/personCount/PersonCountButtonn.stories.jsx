@@ -1,7 +1,7 @@
-// src/shared/ui/PersonCountButtonn.stories.jsx
 import React from 'react';
 import { MemoryRouter, Route, Routes } from 'react-router-dom';
 import PersonCountButtonn from './PersonCountButtonn';
+import { within, userEvent, expect } from '@storybook/test';
 
 // Simulación de ruta con :id
 const WithRouter = ({ id = 'mapa123', name = 'Usuario Ejemplo' }) => {
@@ -80,4 +80,25 @@ export default {
   },
 };
 
-export const Basico = {};
+export const Basico = {
+    play: async ({ canvasElement }) => {
+        const canvas = within(canvasElement);
+        const openButton = await canvas.getByRole('button', { name: /Jhon Doe/i });
+        await userEvent.click(openButton);
+        await expect(canvas.getByText('Dashboard')).toBeInTheDocument();
+        await expect(canvas.getByText('Cerrar Sesión')).toBeInTheDocument();
+    }
+};
+
+
+export const UsoCodigo={
+    component: PersonCountButtonn,
+        parameters: {
+        layout: 'padded',
+        docs: {
+          source: {code:`
+<PersonCountButtonn name={'Jhon Doe'} />
+            `},
+        },
+      },
+}
