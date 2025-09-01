@@ -1,5 +1,5 @@
-// src/shared/layout/components/PanelFooterButtons.stories.jsx
 import { PanelFooterButtons } from './PanelFooterButtons';
+import { within, userEvent, expect, fn } from '@storybook/test';
 
 export default {
   title: 'Shared/Layout/components/PanelFooterButtons',
@@ -12,20 +12,33 @@ export default {
 
 const handleClick = (label) => () => alert(`Clic en botón: ${label}`);
 
-export const Usabilidad = {
+export const Default = {
   args: {
-    footerButtons: [
-      { label: 'Añadir', onClick: handleClick('Añadir Capa') },
-      { label: 'Limpiar', onClick: handleClick('Limpiar') },
+    buttons: [
+      { label: 'Añadir', onClick: fn() },
+      { label: 'Limpiar', onClick: fn() },
     ],
   },
-};
+  play: async ({ canvasElement, args }) => {
+    const canvas = within(canvasElement);
+    const addButton = await canvas.getByRole('button', { name: /Añadir/i });
+    const clearButton = await canvas.getByRole('button', { name: /Limpiar/i });
 
+    await expect(addButton).toBeInTheDocument();
+    await expect(clearButton).toBeInTheDocument();
+
+    await userEvent.click(addButton);
+    await expect(args.buttons[0].onClick).toHaveBeenCalled();
+
+    await userEvent.click(clearButton);
+    await expect(args.buttons[1].onClick).toHaveBeenCalled();
+  }
+};
 
 export const CodigoFuente = {
   component: PanelFooterButtons,
   args: {
-    footerButtons: [
+    buttons: [
       { label: 'Añadir', onClick: handleClick('Añadir Capa') },
       { label: 'Limpiar', onClick: handleClick('Limpiar') },
     ],
