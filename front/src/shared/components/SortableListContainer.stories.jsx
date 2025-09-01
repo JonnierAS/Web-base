@@ -1,7 +1,6 @@
-// src/shared/components/SortableListContainer.stories.jsx
 import React, { useState } from 'react';
 import SortableListContainer from './SortableListContainer';
-import { parameters } from '../../../.storybook/preview';
+import { within, expect } from '@storybook/test';
 
 export default {
   title: 'Shared/Components/SortableListContainer',
@@ -110,11 +109,12 @@ const mockData = [
   { id: '4'}
 ];
 
-export const Default = () => {
+const render = (args) => {
   const [items, setItems] = useState(mockData);
 
   return (
       <SortableListContainer
+        {...args}
         items={items}
         onOrderChange={(newOrder) => setItems(newOrder)}
         renderItem={(item) => (
@@ -129,6 +129,16 @@ export const Default = () => {
         )}
       />
   );
+}
+
+export const Default = {
+  render: render,
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    for (const item of mockData) {
+      await expect(canvas.getByText(item.id)).toBeInTheDocument();
+    }
+  }
 };
 
 
