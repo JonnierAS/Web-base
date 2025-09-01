@@ -1,6 +1,6 @@
-// src/features/navbar/NavbarContainer.stories.jsx
 import NavbarContainer from './NavbarContainer';
 import { MemoryRouter } from 'react-router-dom';
+import { within, expect } from '@storybook/test';
 
 // Wrapper que simula una página con fondo y espacio para el navbar
 const NavbarWrapper = () => {
@@ -90,4 +90,23 @@ export default function NavbarContainer() {
       },
     },
   },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    await expect(canvas.getByText('Solo texto')).toBeInTheDocument();
+    await expect(canvas.getByText('Solo texto 2')).toBeInTheDocument();
+    await expect(canvas.getByText('Demo person')).toBeInTheDocument();
+  }
 };
+
+
+export const UsoCodigo={
+    component: NavbarContainer,
+        parameters: {
+        layout: 'padded',
+        docs: {
+          source: {code:`
+<NavbarContainer />
+            `},
+        },
+      },
+}
