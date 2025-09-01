@@ -1,6 +1,6 @@
-// src/shared/components/CheckboxGroup.stories.jsx
 import { useState } from 'react';
 import { CheckboxGroup } from './CheckboxGroup';
+import { within, userEvent, expect } from '@storybook/test';
 
 // ✅ Items de ejemplo
 const baseItems = [
@@ -77,8 +77,7 @@ export default {
   },
 };
 
-// ✅ Story con control interactivo de estado
-export const Basico = (args) => {
+const render = (args) => {
   const [state, setState] = useState(
     args.items.reduce((acc, item) => {
       acc[item.id] = item.checked;
@@ -102,6 +101,28 @@ export const Basico = (args) => {
       onChange={handleToggle}
     />
   );
+}
+
+// ✅ Story con control interactivo de estado
+export const Basico = {
+  render: render,
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+
+    const checkbox1 = await canvas.getByLabelText('Dato 1');
+    const checkbox2 = await canvas.getByLabelText('Dato 2');
+    const checkbox3 = await canvas.getByLabelText('Dato 3');
+
+    await expect(checkbox1).toBeChecked();
+    await expect(checkbox2).toBeChecked();
+    await expect(checkbox3).not.toBeChecked();
+
+    await userEvent.click(checkbox1);
+    await expect(checkbox1).not.toBeChecked();
+
+    await userEvent.click(checkbox3);
+    await expect(checkbox3).toBeChecked();
+  }
 };
 
 
