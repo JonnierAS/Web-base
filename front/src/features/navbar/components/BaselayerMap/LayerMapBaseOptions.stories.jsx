@@ -1,7 +1,7 @@
-// src/features/navbar/components/BaselayerMap/LayerMapBaseOptions.stories.jsx
 import LayerMapBaseOptions from './LayerMapBaseOptions';
 import { GlobalStateProvider } from '@/shared/context/GlobalState';
 import { mapStyles } from '@/shared/map/base/styles';
+import { within, userEvent, expect } from '@storybook/test';
 
 export default {
   title: 'features/navbar/components/LayerMapBaseOptions',
@@ -50,6 +50,12 @@ export const Basico = {
   args: {
     position: 'top-right',
   },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const openButton = await canvas.getByRole('img', { name: /layers/i });
+    await userEvent.click(openButton);
+    await expect(canvas.queryByText('Google Streets')).not.toBeInTheDocument();
+  }
 };
 
 export const CodigoFuente = {
@@ -129,4 +135,17 @@ export const CodigoFuente = {
       }
     }
   }
+}
+
+
+export const UsoCodigo={
+    component: LayerMapBaseOptions,
+        parameters: {
+        layout: 'padded',
+        docs: {
+          source: {code:`
+<LayerMapBaseOptions position={'top-right'} />
+            `},
+        },
+      },
 }
