@@ -1,4 +1,5 @@
 import Table from './Table';
+import { within, expect } from '@storybook/test';
 
 const sampleData = Array.from({ length: 50 }).map((_, i) => ({
   id: i + 1,
@@ -43,6 +44,18 @@ Default.args = {
   selectable: true,
   exportable: true,
   onRowSelect: (rows) => console.log('Filas seleccionadas:', rows),
+};
+
+Default.play = async ({ canvasElement }) => {
+  const canvas = within(canvasElement);
+  // Check for headers
+  await expect(canvas.getByText('id')).toBeInTheDocument();
+  await expect(canvas.getByText('nombre')).toBeInTheDocument();
+  await expect(canvas.getByText('categoria')).toBeInTheDocument();
+  await expect(canvas.getByText('cantidad')).toBeInTheDocument();
+
+  // Check for first row of data
+  await expect(canvas.getByText('Elemento 1')).toBeInTheDocument();
 };
 
 
@@ -264,6 +277,7 @@ const Table = ({
             )}
         </div>
       )}
+
 
       {/* Table */}
       <div className="overflow-auto flex-1">
