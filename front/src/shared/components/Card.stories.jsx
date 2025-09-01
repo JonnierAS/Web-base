@@ -1,4 +1,5 @@
 import { Card } from './Card';
+import { within, expect } from '@storybook/test';
 
 export default {
   title: 'Shared/components/Card',
@@ -81,6 +82,14 @@ export const Basico = (args) => (
   </div>
 );
 
+Basico.play = async ({ canvasElement }) => {
+  const canvas = within(canvasElement);
+  const titleElement = await canvas.findByText('Resumen');
+  await expect(titleElement).toBeInTheDocument();
+  const childrenElement = await canvas.findByText(/Este es un resumen rápido/i);
+  await expect(childrenElement).toBeInTheDocument();
+};
+
 export const UsoDeCard = {
     component: Card,
     parameters: {
@@ -101,4 +110,3 @@ export const UsoDeCard = {
     },
   },
 }
-
