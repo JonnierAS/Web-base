@@ -1,7 +1,7 @@
-// src/shared/layout/right/RightPanel.stories.jsx
 import { useEffect } from 'react';
 import { RightPanel } from './RightPanel';
 import { useGlobalState } from '@/shared/context/GlobalState';
+import { within, userEvent, expect } from '@storybook/test';
 
 // Wrapper para simular el layout de página + apertura del panel derecho
 const RightPanelOpen = ({ title, tabs, footerButtons }) => {
@@ -71,7 +71,17 @@ export default {
 };
 
 // Variantes
-export const Basico = {};
+export const Basico = {
+    play: async ({ canvasElement }) => {
+        const canvas = within(canvasElement);
+        await expect(canvas.getByText('Panel Derecho')).toBeInTheDocument();
+        await expect(canvas.getByText('Info')).toBeInTheDocument();
+        await expect(canvas.getByText('Información general')).toBeInTheDocument();
+        const closeButton = await canvas.getByRole('button', { name: /Cerrar/i });
+        await userEvent.click(closeButton);
+        await expect(canvas.queryByText('Panel Derecho')).not.toBeInTheDocument();
+    }
+};
 
 export const MuchasTabs = {
   args: { tabs: manyTabs },
@@ -216,3 +226,22 @@ export const ConFooter = {
     },
   },
 };
+
+
+export const UsoCodigo={
+    component: RightPanel,
+        parameters: {
+        layout: 'padded',
+        docs: {
+          source: {code:`
+<RightPanel
+  title="Opciones"
+  tabs={[
+    { key: "info", label: "Info", content: <component /> },
+    { key: "config", label: "Configuración", content: <component /> },
+  ]}
+/>
+            `},
+        },
+      },
+}
