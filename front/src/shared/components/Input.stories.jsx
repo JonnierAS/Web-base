@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Input } from './Input';
+import { within, userEvent, expect } from '@storybook/test';
 
 export default {
   title: 'Shared/components/Input',
@@ -102,8 +103,7 @@ export default {
   },
 };
 
-// Story controlada con estado interno
-export const Basico = (args) => {
+const render = (args) => {
   const [val, setVal] = useState(args.value || '');
 
   return (
@@ -116,6 +116,17 @@ export const Basico = (args) => {
       }}
     />
   );
+}
+
+// Story controlada con estado interno
+export const Basico = {
+  render: render,
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const input = await canvas.getByLabelText('Nombre');
+    await userEvent.type(input, 'John Doe');
+    await expect(input.value).toBe('John Doe');
+  }
 };
 
 
