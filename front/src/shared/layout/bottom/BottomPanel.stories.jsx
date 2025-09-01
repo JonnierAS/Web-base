@@ -1,7 +1,7 @@
-// src/shared/layout/bottom/BottomPanel.stories.jsx
 import { useEffect } from 'react';
 import { BottomPanel } from './BottomPanel';
 import { useGlobalState } from '@/shared/context/GlobalState';
+import { within, userEvent, expect } from '@storybook/test';
 
 // Wrapper para abrir/cerrar el panel desde args y simular left/right abiertos
 const BottomPanelOpen = ({ title, tabs, leftOpen = false, rightOpen = false, renderContent = null }) => {
@@ -49,7 +49,7 @@ const sampleTabs = [
 const manyTabs = Array.from({ length: 8 }).map((_, i) => ({
   id: `tab-${i + 1}`,
   label: `Tab ${i + 1}`,
-  content: <div>Contenido #{i + 1}</div>,
+  content: <div>Contenido #${i + 1}</div>,
 }));
 
 export default {
@@ -90,7 +90,17 @@ export default {
   },
 };
 
-export const Basico = {};
+export const Basico = {
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    await expect(canvas.getByText('Panel')).toBeInTheDocument();
+    await expect(canvas.getByText('Capas')).toBeInTheDocument();
+    await expect(canvas.getByText('Listado de capas…')).toBeInTheDocument();
+    const closeButton = await canvas.getByRole('button', { name: /Cerrar/i });
+    await userEvent.click(closeButton);
+    await expect(canvas.queryByText('Panel')).not.toBeInTheDocument();
+  }
+};
 
 export const MuchasTabs = {
   args: { tabs: manyTabs },
@@ -240,14 +250,11 @@ export const UsoCodigo={
   tabs={[
     { key: "layers", label: "", content: <ExampleBottom /> },
   ]}
-  renderContent={()=>(
-    <>
+  renderContent={()=>(<>
       <button className='border border-gray-300 p-1 rounded cursor-pointer'>
           N Boton
         </button>
-    </>
-
-  )}
+    </>)}
 
 />
             `},
