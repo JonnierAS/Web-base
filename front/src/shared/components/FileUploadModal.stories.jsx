@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { FileUploadModal } from './FileUploadModal';
+import { within, userEvent, expect } from '@storybook/test';
 
 export default {
   title: 'Shared/Components/FileUploadModal',
@@ -52,8 +53,8 @@ export default {
   }
 };
 
-const Template = (args) => {
-  const [isVisible, setIsVisible] = useState(true);
+const render = (args) => {
+  const [isVisible, setIsVisible] = useState(args.isVisible);
 
   const handleClose = () => setIsVisible(false);
 
@@ -75,23 +76,72 @@ const Template = (args) => {
       <FileUploadModal {...args} isVisible={isVisible} onClose={handleClose} onSubmit={handleSubmit} />
     </>
   );
+}
+
+export const Default = {
+  args: {
+    title: 'Subir archivo CSV',
+    accept: '.csv',
+    isVisible: true,
+  },
+  render: render,
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+
+    // Modal is initially open
+    await expect(canvas.getByText('Subir archivo CSV')).toBeInTheDocument();
+
+    // Close modal
+    const cancelButton = await canvas.getByRole('button', { name: /Cancelar/i });
+    await userEvent.click(cancelButton);
+    await expect(canvas.queryByText('Subir archivo CSV')).not.toBeInTheDocument();
+
+    // Reopen modal
+    const openButton = await canvas.getByRole('button', { name: /Abrir modal/i });
+    await userEvent.click(openButton);
+    await expect(canvas.getByText('Subir archivo CSV')).toBeInTheDocument();
+
+    // Check for file input
+    const fileInput = await canvas.getByLabelText(/Seleccioná o arrastrá el archivo acá/i);
+    await expect(fileInput).toBeInTheDocument();
+  },
 };
 
-export const Default = Template.bind({});
-Default.args = {
-  title: 'Subir archivo CSV',
-  accept: '.csv',
+export const CustomMaxSize = {
+  args: {
+    title: 'Subir archivo de hasta 2MB',
+    accept: '.csv, .xlsx',
+    maxFileSize: 2 * 1024 * 1024, // 2MB
+    isVisible: true,
+  },
+  render: render,
 };
 
-export const CustomMaxSize = Template.bind({});
-CustomMaxSize.args = {
-  title: 'Subir archivo de hasta 2MB',
-  accept: '.csv, .xlsx',
-  maxFileSize: 2 * 1024 * 1024, // 2MB
+export const CustomFileTypes = {
+  args: {
+    title: 'Subir archivo Geo (SHP/KML)',
+    accept: '.shp, .kml',
+    isVisible: true,
+  },
+  render: render,
 };
 
-export const CustomFileTypes = Template.bind({});
-CustomFileTypes.args = {
-  title: 'Subir archivo Geo (SHP/KML)',
-  accept: '.shp, .kml',
-};
+
+export const UseCodigo={
+    component: FileUploadModal,
+        parameters: {
+        layout: 'padded',
+        docs: {
+          source: {code:`
+                <FileUploadModal
+                    isVisible={true}
+                    onClose={() => {}}
+                    onSubmit={() => {}}
+                    title="Subir archivo"
+                    accept=".csv"
+                    maxFileSize={5 * 1024 * 1024}
+                />
+            `},
+        },
+      },
+}
