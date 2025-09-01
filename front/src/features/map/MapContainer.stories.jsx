@@ -1,15 +1,9 @@
-// src/features/map/MapContainer.stories.jsx
 import React, { useEffect } from 'react';
 import { MapContainer } from './MapContainer.jsx';
-
-// Importamos el hook REAL para setear el estilo desde la story:
 import { useGlobalState } from '@/shared/context/GlobalState';
-
-// (opcional) Si tenés tus estilos predefinidos, los usamos como opciones.
-// Si no te calza el import, comentá la línea y quedate con el fallback `OPTIONS`.
+import { within, expect } from '@storybook/test';
 import { mapStyles } from '@/shared/map/base/styles';
 
-// --- Wrapper para controlar el contexto global desde args ---
 const MapWithArgs = ({ mapStyle }) => {
   const { setMapType } = useGlobalState?.() ?? {};
 
@@ -19,8 +13,6 @@ const MapWithArgs = ({ mapStyle }) => {
     }
   }, [mapStyle, setMapType]);
 
-  // Si tu Map usa 100dvw/100dvh quizás ignore este wrapper,
-  // pero te lo dejo por si en el futuro pasás a 100% o calc().
   return (
     <div >
       <MapContainer />
@@ -28,9 +20,6 @@ const MapWithArgs = ({ mapStyle }) => {
   );
 };
 
-// --- Opciones de estilos ---
-// Si `mapStyles` existe y tiene .source, lo convertimos a {label, value}
-// Caso contrario, usamos un set básico de URLs públicas.
 const OPTIONS = Array.isArray(mapStyles) && mapStyles.length
   ? mapStyles.map(s => ({
       label: s?.name || s?.label || s?.source?.split('/').pop() || 'style',
@@ -148,4 +137,22 @@ export const Basico = {
       },
     },
   },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const map = await canvas.findByRole('region', { name: /Map/i });
+    await expect(map).toBeInTheDocument();
+  }
 };
+
+
+export const UsoCodigo={
+    component: MapContainer,
+        parameters: {
+        layout: 'padded',
+        docs: {
+          source: {code:`
+<MapContainer />
+            `},
+        },
+      },
+}
