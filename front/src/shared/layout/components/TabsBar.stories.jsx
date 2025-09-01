@@ -1,6 +1,6 @@
-// src/shared/layout/components/TabsBar.stories.jsx
 import { useState } from 'react';
 import { TabsBar } from './TabsBar';
+import { within, userEvent, expect } from '@storybook/test';
 
 const TabsBarWrapper = ({ tabs }) => {
   const [activeTab, setActiveTab] = useState(tabs[0]?.key || '');
@@ -67,4 +67,47 @@ return (
   },
 };
 
-export const Basico = {};
+export const Basico = {
+    play: async ({ canvasElement }) => {
+        const canvas = within(canvasElement);
+        const tab1 = await canvas.getByRole('button', { name: /Capas/i });
+        const tab2 = await canvas.getByRole('button', { name: /Leyenda/i });
+        const tab3 = await canvas.getByRole('button', { name: /Mediciones/i });
+
+        await expect(tab1).toBeInTheDocument();
+        await expect(tab2).toBeInTheDocument();
+        await expect(tab3).toBeInTheDocument();
+
+        await userEvent.click(tab2);
+        await expect(canvas.getByText('Leyenda')).toBeInTheDocument();
+
+        await userEvent.click(tab3);
+        await expect(canvas.getByText('Mediciones')).toBeInTheDocument();
+    }
+};
+
+
+export const UsoCodigo={
+    component: TabsBar,
+        parameters: {
+        layout: 'padded',
+        docs: {
+          source: {code:`
+                const [activeTab, setActiveTab] = useState('capas');
+
+                const tabs = [
+                { key: 'capas', label: 'Capas' },
+                { key: 'leyenda', label: 'Leyenda' },
+                ];
+
+                return (
+                <TabsBar
+                    tabs={tabs}
+                    activeTab={activeTab}
+                    setActiveTab={setActiveTab}
+                />
+                );
+            `},
+        },
+      },
+}
