@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import CenterModal from './CenterModal';
+import { within, userEvent, expect } from '@storybook/test';
 
 export default {
   title: 'shared/Components/CenterModal',
@@ -231,26 +232,8 @@ const ExampleContent = ({ label }) => (
   </div>
 );
 
-export const Default = () => {
-  const [isOpen, setIsOpen] = useState(true);
-
-  const exampleTabs = [
-    {
-      label: 'ODF',
-      key: 'odf',
-      content: <ExampleContent label="ODF" />,
-    },
-    {
-      label: 'Conectividad',
-      key: 'conectividad',
-      content: <ExampleContent label="Conectividad" />,
-    },
-    {
-      label: 'Divicau',
-      key: 'divicau',
-      content: <ExampleContent label="Divicau" />,
-    },
-  ];
+const render = (args) => {
+  const [isOpen, setIsOpen] = useState(args.isOpen);
 
   return (
     <div className="h-screen w-screen bg-gray-100 flex items-center justify-center">
@@ -262,14 +245,54 @@ export const Default = () => {
       </button>
 
       <CenterModal
+        {...args}
         isOpen={isOpen}
         onClose={setIsOpen}
-        title="Modal Reutilizable"
-        tabs={exampleTabs}
-        defaultTabKey="odf"
       />
     </div>
   );
+}
+
+export const Default = {
+  args: {
+    isOpen: false,
+    title: "Modal Reutilizable",
+    tabs: [
+      {
+        label: 'ODF',
+        key: 'odf',
+        content: <ExampleContent label="ODF" />,
+      },
+      {
+        label: 'Conectividad',
+        key: 'conectividad',
+        content: <ExampleContent label="Conectividad" />,
+      },
+      {
+        label: 'Divicau',
+        key: 'divicau',
+        content: <ExampleContent label="Divicau" />,
+      },
+    ],
+    defaultTabKey: "odf",
+  },
+  render: render,
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+
+    // Modal is not visible initially
+    await expect(canvas.queryByText('Modal Reutilizable')).not.toBeInTheDocument();
+
+    // Open modal
+    const openButton = await canvas.getByRole('button', { name: /Abrir modal/i });
+    await userEvent.click(openButton);
+    await expect(canvas.getByText('Modal Reutilizable')).toBeInTheDocument();
+
+    // Close modal
+    const closeButton = await canvas.getAllByRole('button');
+    await userEvent.click(closeButton[2]); //This is not robust
+    await expect(canvas.queryByText('Modal Reutilizable')).not.toBeInTheDocument();
+  },
 };
 
 
