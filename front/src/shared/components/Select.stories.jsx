@@ -1,7 +1,6 @@
-// src/shared/components/Select.stories.jsx
 import { useState } from 'react';
 import { Select } from './Select';
-import { parameters } from '../../../.storybook/preview';
+import { within, userEvent, expect } from '@storybook/test';
 
 export default {
   title: 'Shared/components/Select',
@@ -118,7 +117,7 @@ export default {
   }
 };
 
-export const Basico = (args) => {
+const render = (args) => {
   const [selected, setSelected] = useState('');
 
   const opciones = [
@@ -141,6 +140,18 @@ export const Basico = (args) => {
       />
     </div>
   );
+}
+
+export const Basico = {
+  render: render,
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const select = await canvas.getByText('Elige una opción');
+    await userEvent.click(select);
+    const option = await canvas.getByText('Inglés');
+    await userEvent.click(option);
+    await expect(canvas.getByText('Inglés')).toBeInTheDocument();
+  }
 };
 
 
