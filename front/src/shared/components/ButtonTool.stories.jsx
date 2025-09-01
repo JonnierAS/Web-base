@@ -3,6 +3,7 @@ import { ButtonTool } from './ButtonTool';
 import mundo from '@/shared/assets/icons/mundo.png';
 import distancia from '@/shared/assets/icons/distancia.png';
 import capturar_mapa from '@/shared/assets/icons/capturar_mapa.png';
+import { within, userEvent, expect, fn } from '@storybook/test';
 
 export default {
   title: 'shared/Components/ButtonTool',
@@ -71,6 +72,20 @@ export const IconAndLabel = {
   },
 };
 
+export const ClickTest = {
+  name: 'Test de Interacción (Click)',
+  args: {
+    label: 'Click Me',
+    onClick: fn(),
+  },
+  play: async ({ canvasElement, args }) => {
+    const canvas = within(canvasElement);
+    const button = await canvas.getByRole('button', { name: /Click Me/i });
+    await userEvent.click(button);
+    await expect(args.onClick).toHaveBeenCalled();
+  },
+};
+
 export const OnlyLabel = {
   name: 'Solo texto',
   args: {
@@ -104,6 +119,13 @@ export const DisabledState = {
     icon: { src: iconMap.mundo },
     label: 'No activo',
     disabled: true,
+    onClick: fn(),
+  },
+  play: async ({ canvasElement, args }) => {
+    const canvas = within(canvasElement);
+    const button = await canvas.getByRole('button', { name: /No activo/i });
+    await userEvent.click(button, { skipPointerEventsCheck: true });
+    await expect(args.onClick).not.toHaveBeenCalled();
   },
 };
 
@@ -119,7 +141,7 @@ export const CodigoFuente={
 /**
  * Reusable button with optional icon and label
  * 
- * @param {{
+ * @param {{ 
  *   icon?: { src: string, alt?: string, width?: number, height?: number },
  *   label?: string,
  *   isActive?: boolean,
@@ -129,7 +151,7 @@ export const CodigoFuente={
  *   className?: string,
  * }} props 
  */
-export const ButtonTool = ({
+export const ButtonTool = ({ 
   icon,
   label = '',
   isActive = false,
