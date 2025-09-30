@@ -10,13 +10,15 @@ export default {
     docs: {
       description: {
         component: `
-Un **QueryBuilder reutilizable y estilizado con TailwindCSS** basado en [react-querybuilder](https://react-querybuilder.js.org/), que incluye:
+Un **QueryBuilder reutilizable y estilizado con TailwindCSS**, que incluye:
 
-- Inputs personalizados: 
-- **drag & drop**
-- 
-- 
-- 
+- Inputs personalizados: \`text\`, \`number\`, \`select\`, \`checkbox\`, \`date\`.
+- Soporte para **drag & drop** con mouse y touch.
+- Sistema de plantillas rápidas y personalizadas (almacenadas en \`localStorage\`).
+- Botones para **ejecutar** o **limpiar** el query.
+- Completamente configurable vía props y callbacks.
+
+---
 
 ### ⚙️ Props disponibles
 
