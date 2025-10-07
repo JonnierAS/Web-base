@@ -1,9 +1,10 @@
+import {ReactNode, cloneElement} from 'react';
 
 /**
  * Reusable button with optional icon and label
  * 
  * @param {{
- *   icon?: { src: string, alt?: string, width?: number, height?: number },
+ *   icon?: { src: string | ReactNode, alt?: string, width?: number, height?: number },
  *   label?: string,
  *   isActive?: boolean,
  *   disabled?: boolean,
@@ -24,17 +25,27 @@ export const ButtonTool = ({
   const flexLayout = layout === 'row' ? 'flex-row gap-1' : 'flex-col';
 
   const iconElement = icon ? (
-    <img
-      src={icon.src}
-      alt={icon.alt || 'icon'}
-      style={{
+    typeof icon.src === 'string' ? (
+      <img
+        src={icon.src}
+        alt={icon.alt || 'icon'}
+        style={{
+          width: icon.width || 24,
+          height: icon.height || 24,
+        }}
+        className={`object-contain transition-all ${
+          disabled ? 'grayscale opacity-50' : ''
+        }`}
+      />
+    ) : (
+      cloneElement(icon.src, {
         width: icon.width || 24,
         height: icon.height || 24,
-      }}
-      className={`object-contain transition-all ${
-        disabled ? 'grayscale opacity-50' : ''
-      }`}
-    />
+        className: `object-contain transition-all ${
+          disabled ? 'grayscale opacity-50' : ''
+        } ${icon.src.props.className || ''}`.trim(),
+      })
+    )
   ) : null;
 
   const labelElement = label ? (
